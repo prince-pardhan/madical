@@ -1,22 +1,53 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { MantineProvider, Container, Title, Paper } from '@mantine/core';
-import Login from '@/components/Login';
-import Dashboard from '@/components/Dashboard';
+import { useState } from "react";
+import {
+  Button,
+  Container,
+  Paper,
+  TextInput,
+  Title,
+} from "@mantine/core";
 
-export default function Home() {
-  const [clientEmail, setClientEmail] = useState<string | null>(null);
+export default function Login() {
+  const [email, setEmail] = useState("");
+
+  const login = () => {
+    localStorage.setItem(
+      "clientEmail",
+      email
+    );
+
+    window.location.href =
+      "/dashboard";
+  };
 
   return (
-    <MantineProvider>
-      <Container size="lg" py="xl">
-        {!clientEmail ? (
-          <Login onLogin={setClientEmail} />
-        ) : (
-          <Dashboard email={clientEmail} onLogout={() => setClientEmail(null)} />
-        )}
-      </Container>
-    </MantineProvider>
+    <Container size="xs" mt={100}>
+      <Paper p="lg">
+        <Title order={2}>
+          Client Login
+        </Title>
+
+        <TextInput
+          mt="md"
+          label="Email"
+          value={email}
+          onChange={(e) =>
+            setEmail(
+              e.currentTarget.value
+            )
+          }
+        />
+
+        <Button
+          fullWidth
+          mt="md"
+          onClick={login}
+        >
+          Login
+        </Button>
+      </Paper>
+    </Container>
   );
 }
